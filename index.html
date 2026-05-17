@@ -8,17 +8,17 @@
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://yantrixa.in/" />
+  <meta property="og:url" content="https://veyusearch.com/" />
   <meta property="og:title" content="VeyuSearch — Privacy-Focused Search Engine" />
   <meta property="og:description" content="A platform built by us to enhance the working of search engines, gather information, and ensure privacy." />
-  <meta property="og:image" content="./veyusearch_logo.png" />
+  <meta property="og:image" content="https://veyusearch.com/veyusearch_logo.png" />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://yantrixa.in/" />
+  <meta property="twitter:url" content="https://veyusearch.com/" />
   <meta property="twitter:title" content="VeyuSearch — Privacy-Focused Search Engine" />
   <meta property="twitter:description" content="A platform built by us to enhance the working of search engines, gather information, and ensure privacy." />
-  <meta property="twitter:image" content="./veyusearch_logo.png" />
+  <meta property="twitter:image" content="https://veyusearch.com/veyusearch_logo.png" />
 
   <!-- Structured Data for SEO -->
   <script type="application/ld+json">
@@ -26,14 +26,14 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "VeyuSearch",
-      "url": "https://yantrixa.in/",
+      "url": "https://veyusearch.com/",
       "description": "A platform built by us to enhance the working of search engines, gather information, and ensure privacy. Developed by Yantrixa.",
       "publisher": {
         "@type": "Organization",
         "name": "Yantrixa",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://yantrixa.in/veyusearch_logo.png"
+          "url": "https://veyusearch.com/veyusearch_logo.png"
         }
       }
     }
@@ -49,13 +49,13 @@
     :root {
       font-family: 'Inter', system-ui, sans-serif;
       color: #e2e8f0;
-      background-color: #050505; /* Deep black to match the logo */
+      background-color: #050505;
       --glass-bg: rgba(20, 20, 20, 0.7);
       --glass-border: rgba(100, 116, 139, 0.2);
       --glass-hover: rgba(40, 40, 40, 0.8);
-      --accent-color: #3b82f6; /* Enterprise Blue */
+      --accent-color: #3b82f6;
       --accent-glow: 0 0 20px rgba(59, 130, 246, 0.4);
-      --ai-color: #8b5cf6; /* AI Purple */
+      --ai-color: #8b5cf6;
       --ai-glow: 0 0 25px rgba(139, 92, 246, 0.5);
     }
 
@@ -295,9 +295,7 @@
       transition: background 0.2s;
       cursor: pointer;
     }
-    .history-item:hover {
-      background: rgba(59, 130, 246, 0.1);
-    }
+    .history-item:hover { background: rgba(59, 130, 246, 0.1); }
     .history-item-text {
       flex: 1;
       white-space: nowrap;
@@ -316,10 +314,7 @@
       align-items: center;
       justify-content: center;
     }
-    .history-remove-btn:hover {
-      color: #ef4444;
-      background: rgba(239, 68, 68, 0.1);
-    }
+    .history-remove-btn:hover { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
 
     /* Navigation Bar */
     .nav-bar {
@@ -486,12 +481,11 @@
       font-weight: 400;
     }
 
-    /* Logo Styling */
     .yantrixa-logo {
       max-width: 240px;
       width: 100%;
       height: auto;
-      mix-blend-mode: screen; /* Makes the black background transparent! */
+      mix-blend-mode: screen;
       margin-bottom: -1rem;
       pointer-events: none;
     }
@@ -635,7 +629,7 @@
           id="searchInput"
           class="search-input"
           type="text"
-          placeholder="Search Google or type a URL..."
+          placeholder="Search the web..."
         />
 
         <div id="clearBtn" style="display: none; cursor: pointer; padding: 0.5rem; color: #94a3b8; align-items: center; justify-content: center;" title="Clear search">
@@ -676,10 +670,6 @@
         </div>
       </div>
 
-
-
-
-
     </div>
 
     <!-- History Modal -->
@@ -689,7 +679,6 @@
         <button id="clearHistoryBtn" style="background: none; border: none; color: #ef4444; font-size: 0.8rem; cursor: pointer; text-decoration: underline;">Clear All</button>
       </div>
       <div id="historyList" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.25rem;">
-        <!-- History items injected here -->
       </div>
     </div>
 
@@ -814,22 +803,17 @@
         btn.innerHTML = data.icon + data.name;
         btn.style.fontSize = '0.85rem';
         btn.style.padding = '0.5rem 1rem';
-        
         btn.onclick = (e) => {
           e.preventDefault();
           activeEngine = key;
           renderEngines();
-          
           const query = searchInput.value.trim();
-          if (query) {
-            window.location.href = data.url + encodeURIComponent(query);
-          } else {
-            window.location.href = data.home;
-          }
+          if (query) { window.location.href = data.url + encodeURIComponent(query); }
+          else { window.location.href = data.home; }
         };
         engineContainer.appendChild(btn);
       });
-      searchInput.placeholder = `Search ${engines[activeEngine].name} or type a URL...`;
+      searchInput.placeholder = `Search with ${engines[activeEngine].name}...`;
     }
 
     function renderQuickLinks() {
@@ -839,19 +823,10 @@
         a.href = link.url;
         a.target = '_blank';
         a.className = 'glass-panel quick-link';
-        a.innerHTML = `
-          <div style="color: var(--accent-color); margin-bottom: 0.75rem;">
-            ${link.icon}
-          </div>
-          <span>${link.name}</span>
-        `;
+        a.innerHTML = `<div style="color: var(--accent-color); margin-bottom: 0.75rem;">${link.icon}</div><span>${link.name}</span>`;
         quickLinksContainer.appendChild(a);
       });
     }
-
-    const searchResults = document.getElementById('searchResults');
-    const resultsList = document.getElementById('resultsList');
-    const queryText = document.getElementById('queryText');
 
     searchForm.onsubmit = (e) => {
       e.preventDefault();
@@ -887,7 +862,6 @@
 
     function renderTabs() {
       tabBar.innerHTML = '';
-      // Home tab
       const home = document.createElement('div'); home.className = 'tab-item active';
       home.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="tab-item-text">Home</span>';
       home.onclick = () => { const tabs = getTabs(); tabs.forEach(t => t.active = false); saveTabs(tabs); renderTabs(); };
@@ -910,14 +884,13 @@
         tabBar.appendChild(el);
       });
 
-      // + button
       const addBtn = document.createElement('button'); addBtn.className = 'tab-add'; addBtn.title = 'New search';
       addBtn.textContent = '+';
       addBtn.onclick = () => { searchInput.value = ''; searchInput.focus(); };
       tabBar.appendChild(addBtn);
     }
 
-    // === HISTORY (from hamburger) ===
+    // === HISTORY ===
     const historyModal = document.getElementById('historyModal');
     const clearHistoryBtn = document.getElementById('clearHistoryBtn');
     const historyList = document.getElementById('historyList');
@@ -940,7 +913,7 @@
     menuHistoryBtn.onclick = (e) => {
       e.stopPropagation();
       hamburgerMenu.classList.remove('open');
-      if (historyModal.style.display === 'block') { historyModal.style.display = 'none'; } 
+      if (historyModal.style.display === 'block') { historyModal.style.display = 'none'; }
       else { renderHistory(); historyModal.style.display = 'block'; }
     };
     clearHistoryBtn.onclick = () => { localStorage.removeItem('veyuHistory'); renderHistory(); };
@@ -976,4 +949,3 @@
   </script>
 </body>
 </html>
-
