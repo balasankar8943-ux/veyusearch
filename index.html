@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A platform built by us to enhance the working of search engines, gather information, and ensure privacy. VeyuSearch is a secure, private, and powerful search engine developed by Yantrixa." />
+  <meta name="keywords" content="search engine, privacy search engine, secure search, gather information privacy, Yantrixa, VeyuSearch, fast search engine" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://yantrixa.in/" />
+  <meta property="og:title" content="VeyuSearch — Privacy-Focused Search Engine" />
+  <meta property="og:description" content="A platform built by us to enhance the working of search engines, gather information, and ensure privacy." />
+  <meta property="og:image" content="./veyusearch_logo.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://yantrixa.in/" />
+  <meta property="twitter:title" content="VeyuSearch — Privacy-Focused Search Engine" />
+  <meta property="twitter:description" content="A platform built by us to enhance the working of search engines, gather information, and ensure privacy." />
+  <meta property="twitter:image" content="./veyusearch_logo.png" />
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "VeyuSearch",
+      "url": "https://yantrixa.in/",
+      "description": "A platform built by us to enhance the working of search engines, gather information, and ensure privacy. Developed by Yantrixa.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Yantrixa",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://yantrixa.in/veyusearch_logo.png"
+        }
+      }
+    }
+  </script>
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <title>VeyuSearch — Privacy-Focused Search Engine</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #e2e8f0;
+      background-color: #050505; /* Deep black to match the logo */
+      --glass-bg: rgba(20, 20, 20, 0.7);
+      --glass-border: rgba(100, 116, 139, 0.2);
+      --glass-hover: rgba(40, 40, 40, 0.8);
+      --accent-color: #3b82f6; /* Enterprise Blue */
+      --accent-glow: 0 0 20px rgba(59, 130, 246, 0.4);
+      --ai-color: #8b5cf6; /* AI Purple */
+      --ai-glow: 0 0 25px rgba(139, 92, 246, 0.5);
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      place-items: center;
+      min-height: 100vh;
+      background-color: #050505;
+      background-image: 
+        linear-gradient(rgba(5, 5, 5, 0.85), rgba(5, 5, 5, 0.95)),
+        url('./logo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    .container {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      padding: 1rem;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+
+    /* Auth Overlay */
+    #authOverlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.4s ease;
+    }
+
+    .auth-box {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 3rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .auth-input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--glass-border);
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .auth-input:focus {
+      border-color: var(--accent-color);
+    }
+
+    /* Top Bar */
+    .top-bar {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      gap: 1rem;
+    }
+
+    .user-greeting {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    /* Main App Area */
+    #appContent {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .glass-button {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: #cbd5e1;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .glass-button:hover {
+      background: var(--glass-hover);
+      border-color: #94a3b8;
+      color: #fff;
+    }
+
+    .glass-button.active {
+      border-color: var(--accent-color);
+      background: rgba(59, 130, 246, 0.1);
+      color: #fff;
+      box-shadow: var(--accent-glow);
+    }
+
+    .primary-btn {
+      background: var(--accent-color);
+      border-color: var(--accent-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    .primary-btn:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+    }
+
+    .ai-btn {
+      background: linear-gradient(135deg, rgba(139,92,246,0.2) 0%, rgba(59,130,246,0.1) 100%);
+      border: 1px solid rgba(139,92,246,0.5);
+      color: #fff;
+      border-radius: 24px;
+      padding: 0.6rem 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 2rem;
+      box-shadow: var(--ai-glow);
+      text-decoration: none;
+    }
+
+    .ai-btn:hover {
+      background: linear-gradient(135deg, rgba(139,92,246,0.4) 0%, rgba(59,130,246,0.2) 100%);
+      transform: translateY(-2px);
+    }
+
+    .search-form {
+      width: 100%;
+      max-width: 800px;
+      padding: 0.5rem;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .search-form.focused {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 1px var(--accent-color), 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #f8fafc;
+      font-size: 1.15rem;
+      padding: 1rem 0;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .search-input::placeholder { color: #64748b; }
+
+    .quick-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      text-decoration: none;
+      color: #cbd5e1;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      width: 140px;
+      box-sizing: border-box;
+    }
+
+    .quick-link:hover {
+      background: var(--glass-hover);
+      border-color: #94a3b8;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #050505; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+    /* History Modal */
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 6px;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .history-item:hover {
+      background: rgba(59, 130, 246, 0.1);
+    }
+    .history-item-text {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 0.5rem;
+    }
+    .history-remove-btn {
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .history-remove-btn:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* Navigation Bar */
+    .nav-bar {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      padding: 1rem 2rem;
+      gap: 0.5rem;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: var(--glass-hover); color: #fff; }
+
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 2rem;
+      width: 220px;
+      background: rgba(15,15,15,0.95);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 0.5rem;
+      backdrop-filter: blur(16px);
+      z-index: 60;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+    .hamburger-menu.open { display: block; }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 1rem;
+      color: #cbd5e1;
+      border: none;
+      background: none;
+      width: 100%;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .menu-item:hover { background: var(--glass-hover); color: #fff; }
+    .menu-divider { height: 1px; background: var(--glass-border); margin: 0.3rem 0.5rem; }
+
+    /* Profile Modal */
+    .profile-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5,5,5,0.9);
+      backdrop-filter: blur(12px);
+      z-index: 110;
+      align-items: center;
+      justify-content: center;
+    }
+    .profile-modal.open { display: flex; }
+    .profile-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .profile-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), var(--ai-color));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.2rem;
+      font-size: 2rem; font-weight: 700; color: #fff;
+    }
+
+    /* Voice Button */
+    .voice-btn {
+      background: none;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      transition: all 0.2s;
+    }
+    .voice-btn:hover { color: #fff; background: rgba(59,130,246,0.15); }
+    .voice-btn.listening { color: #ef4444; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+    /* Tab Bar */
+    .tab-bar {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      gap: 0.25rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: rgba(30,41,59,0.5);
+      border: 1px solid var(--glass-border);
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      max-width: 160px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .tab-item:hover { background: var(--glass-hover); color: #fff; }
+    .tab-item.active { background: var(--glass-bg); color: #fff; border-color: var(--accent-color); border-bottom: 2px solid #050505; }
+    .tab-item-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 110px; }
+    .tab-close {
+      background: none; border: none; color: #64748b; cursor: pointer; padding: 0;
+      display: flex; align-items: center; border-radius: 4px; transition: all 0.15s;
+    }
+    .tab-close:hover { color: #ef4444; }
+    .tab-add {
+      background: none; border: 1px dashed var(--glass-border); color: #64748b;
+      cursor: pointer; padding: 0.35rem 0.6rem; border-radius: 8px 8px 0 0;
+      display: flex; align-items: center; font-size: 1rem; transition: all 0.2s;
+    }
+    .tab-add:hover { color: #fff; border-color: #94a3b8; }
+
+    /* Typography */
+    .brand-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin: 0;
+      color: #fff;
+    }
+    
+    .brand-subtitle {
+      color: #94a3b8;
+      font-size: 1rem;
+      margin-top: 0.2rem;
+      font-weight: 400;
+    }
+
+    /* Logo Styling */
+    .yantrixa-logo {
+      max-width: 240px;
+      width: 100%;
+      height: auto;
+      mix-blend-mode: screen; /* Makes the black background transparent! */
+      margin-bottom: -1rem;
+      pointer-events: none;
+    }
+
+    .login-logo {
+      max-width: 140px;
+      width: 100%;
+      height: auto;
+      mix-blend-mode: screen;
+      margin-bottom: 0.5rem;
+      pointer-events: none;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .auth-box {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+      }
+      .auth-box h2 {
+        font-size: 2rem !important;
+      }
+      .yantrixa-logo {
+        max-width: 180px;
+      }
+      .brand-title {
+        font-size: 2.2rem;
+      }
+      .brand-subtitle {
+        font-size: 0.85rem;
+      }
+      .search-form {
+        flex-direction: column;
+        border-radius: 16px;
+        padding: 0.5rem;
+      }
+      .search-input {
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 0;
+        font-size: 1rem;
+      }
+      .search-form > div {
+        width: 100%;
+        justify-content: center;
+        padding: 0.5rem 0;
+      }
+      .glass-button {
+        font-size: 0.85rem;
+        padding: 0.6rem 1rem;
+      }
+      .quick-link {
+        padding: 1rem 0.5rem;
+        width: calc(50% - 0.5rem);
+      }
+      #quickLinksContainer {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 0.5rem !important;
+      }
+      #engineContainer {
+        gap: 0.5rem !important;
+      }
+      .nav-bar {
+        padding: 0.75rem 1rem;
+      }
+      .ai-btn {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+      }
+      .hamburger-menu { right: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Overlay -->
+  <div id="authOverlay">
+    <div class="auth-box">
+      <img src="./logo.jpg" alt="VeyuSearch Logo" class="login-logo" onerror="this.style.display='none'">
+      <h2 style="font-size: 2.5rem; font-weight: 800; margin: 0 0 0.2rem 0; letter-spacing: -0.05em;">veyusearch</h2>
+      <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 0; margin-bottom: 2.5rem; font-weight: 400;">
+        portal access &mdash; developed by <span style="color: var(--accent-color); font-weight: 600;">Yantrixa</span>
+      </p>
+      <form id="loginForm">
+        <input type="text" id="usernameInput" class="auth-input" placeholder="Enter your full name" required autocomplete="off" />
+        <button type="submit" class="glass-button primary-btn" style="width: 100%; border-radius: 8px;">Access Portal</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- Navigation Bar -->
+    <div class="nav-bar" id="navBar">
+      <button class="nav-btn" id="homeBtn" title="Home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></button>
+      <div style="flex:1"></div>
+      <button class="nav-btn" id="hamburgerBtn" title="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar" id="tabBar"></div>
+
+    <!-- Hamburger Dropdown -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+      <button class="menu-item" id="menuHistoryBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> History</button>
+      <button class="menu-item" id="menuProfileBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Profile</button>
+      <div class="menu-divider"></div>
+      <button class="menu-item" id="menuLoginBtn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg> Sign In</button>
+      <button class="menu-item" id="menuLogoutBtn" style="display:none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> Logout</button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="appContent">
+      
+      <!-- Logo & Branding -->
+      <div id="brandingArea" style="margin-bottom: 2rem; text-align: center; display: flex; flex-direction: column; align-items: center;">
+        <h1 class="brand-title">
+          veyu<span style="color: var(--accent-color);">search</span>
+        </h1>
+        <p class="brand-subtitle" style="max-width: 600px; line-height: 1.5; margin-top: 0.2rem; font-size: 0.85rem; letter-spacing: 0.03em;">Meta Search Engine</p>
+        <p class="brand-subtitle" style="max-width: 600px; line-height: 1.5; margin-top: 0.2rem;">
+          Built by <a href="https://yantrixa.in" target="_blank" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Yantrixa</a>
+        </p>
+      </div>
+
+      <!-- AI Feature Button -->
+      <a href="https://gemini.google.com/app" target="_blank" class="glass-button ai-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;"><path d="M12 2a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2 2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM12 17a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2 2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2zM4.93 4.93a2 2 0 0 0-2.83 0 2 2 0 0 0 0 2.83l.7.7a2 2 0 0 0 2.83 0 2 2 0 0 0 0-2.83zM16.36 16.36a2 2 0 0 0-2.83 0 2 2 0 0 0 0 2.83l.7.7a2 2 0 0 0 2.83 0 2 2 0 0 0 0-2.83z"/></svg>
+        Ask AI for Search
+      </a>
+
+      <!-- Search Bar -->
+      <form id="searchForm" class="glass-panel search-form">
+        <div style="padding: 0 1rem; color: #64748b; display: flex; align-items: center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+
+        <input
+          id="searchInput"
+          class="search-input"
+          type="text"
+          placeholder="Search Google or type a URL..."
+        />
+
+        <div id="clearBtn" style="display: none; cursor: pointer; padding: 0.5rem; color: #94a3b8; align-items: center; justify-content: center;" title="Clear search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+
+        <button type="button" id="voiceBtn" class="voice-btn" title="Search by voice">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        </button>
+
+        <div style="display: flex; align-items: center; padding-right: 0.5rem; gap: 0.5rem;">
+          <button type="submit" class="glass-button primary-btn">
+            Search
+          </button>
+        </div>
+      </form>
+
+      <!-- Engine Toggle -->
+      <button id="engineToggleBtn" class="glass-button" style="margin-top: 1.5rem; padding: 0.4rem 1.2rem; font-size: 0.8rem; color: #94a3b8; border-radius: 20px; gap: 0.4rem;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        More Search Engines
+        <svg id="engineToggleArrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+
+      <!-- Engine Selector (hidden by default) -->
+      <div id="engineContainer" style="display: none; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; max-height: 0; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease; opacity: 0;">
+      </div>
+
+      <!-- Quick Links -->
+      <div id="quickLinksSection" style="margin-top: 4rem; width: 100%;">
+        <div style="display: flex; align-items: center; margin-bottom: 1.5rem; color: #64748b; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;">
+          <span style="flex: 1; height: 1px; background: var(--glass-border); margin-right: 1.5rem;"></span>
+          Quick Links
+          <span style="flex: 1; height: 1px; background: var(--glass-border); margin-left: 1.5rem;"></span>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; max-width: 800px; margin: 0 auto;" id="quickLinksContainer">
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+
+    <!-- History Modal -->
+    <div id="historyModal" style="display: none; position: absolute; top: 70px; right: 2rem; width: 300px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1rem; box-sizing: border-box; backdrop-filter: blur(12px); z-index: 50; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+        <h4 style="margin: 0; color: #f8fafc; font-weight: 600; font-size: 0.95rem;">Search History</h4>
+        <button id="clearHistoryBtn" style="background: none; border: none; color: #ef4444; font-size: 0.8rem; cursor: pointer; text-decoration: underline;">Clear All</button>
+      </div>
+      <div id="historyList" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.25rem;">
+        <!-- History items injected here -->
+      </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="profile-modal" id="profileModal">
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">?</div>
+        <h3 id="profileName" style="margin: 0 0 0.3rem; color: #f8fafc; font-size: 1.3rem;">Guest</h3>
+        <p id="profileEmail" style="color: #64748b; font-size: 0.85rem; margin: 0 0 1.5rem;">Sign in to view your profile</p>
+        <button class="glass-button" style="width: 100%; border-radius: 8px;" onclick="document.getElementById('profileModal').classList.remove('open')">Close</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="margin-top: auto; padding-top: 4rem; padding-bottom: 2rem; color: #64748b; font-size: 0.8rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; z-index: 1;" id="footerLinks">
+      <a href="https://yantrixa.in" target="_blank" style="color: inherit; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#64748b'">Yantrixa Official</a>
+      <span>&copy; 2026 <a href="https://veyusearch.com" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-color)'" onmouseout="this.style.color='#64748b'">veyusearch.com</a></span>
+    </div>
+
+  </div>
+
+  <script>
+    // === AUTH ===
+    const authOverlay = document.getElementById('authOverlay');
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('usernameInput');
+    const menuLoginBtn = document.getElementById('menuLoginBtn');
+    const menuLogoutBtn = document.getElementById('menuLogoutBtn');
+    const menuProfileBtn = document.getElementById('menuProfileBtn');
+    const profileModal = document.getElementById('profileModal');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const hamburgerMenu = document.getElementById('hamburgerMenu');
+    const menuHistoryBtn = document.getElementById('menuHistoryBtn');
+    const homeBtn = document.getElementById('homeBtn');
+
+    function checkAuth() {
+      const u = localStorage.getItem('veyuUser');
+      if (u) {
+        menuLoginBtn.style.display = 'none';
+        menuLogoutBtn.style.display = 'flex';
+        authOverlay.style.display = 'none';
+        document.getElementById('profileAvatar').textContent = u.charAt(0).toUpperCase();
+        document.getElementById('profileName').textContent = u;
+        document.getElementById('profileEmail').textContent = 'Signed in to VeyuSearch';
+      } else {
+        menuLoginBtn.style.display = 'flex';
+        menuLogoutBtn.style.display = 'none';
+        document.getElementById('profileAvatar').textContent = '?';
+        document.getElementById('profileName').textContent = 'Guest';
+        document.getElementById('profileEmail').textContent = 'Sign in to view your profile';
+      }
+    }
+
+    menuLoginBtn.onclick = () => { hamburgerMenu.classList.remove('open'); authOverlay.style.display = 'flex'; usernameInput.focus(); };
+    menuLogoutBtn.onclick = () => { localStorage.removeItem('veyuUser'); usernameInput.value = ''; checkAuth(); hamburgerMenu.classList.remove('open'); };
+    menuProfileBtn.onclick = () => { hamburgerMenu.classList.remove('open'); profileModal.classList.add('open'); };
+    profileModal.addEventListener('click', (e) => { if (e.target === profileModal) profileModal.classList.remove('open'); });
+    authOverlay.addEventListener('click', (e) => { if (e.target === authOverlay) authOverlay.style.display = 'none'; });
+    loginForm.onsubmit = (e) => { e.preventDefault(); const n = usernameInput.value.trim(); if (n) { localStorage.setItem('veyuUser', n); checkAuth(); } };
+
+    // Hamburger
+    hamburgerBtn.onclick = (e) => { e.stopPropagation(); hamburgerMenu.classList.toggle('open'); };
+    document.addEventListener('click', (e) => { if (!hamburgerMenu.contains(e.target) && e.target !== hamburgerBtn) hamburgerMenu.classList.remove('open'); });
+
+    // Home
+    homeBtn.onclick = () => { window.location.href = window.location.pathname; };
+
+    checkAuth();
+
+    // === SEARCH ===
+    const searchInput = document.getElementById('searchInput');
+    const searchForm = document.getElementById('searchForm');
+    const engineContainer = document.getElementById('engineContainer');
+    const quickLinksContainer = document.getElementById('quickLinksContainer');
+    const clearBtn = document.getElementById('clearBtn');
+    
+    let activeEngine = 'google';
+
+    const engines = {
+      google: { name: 'Google', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>', url: 'https://www.google.com/search?q=', home: 'https://www.google.com' },
+      duckduckgo: { name: 'DuckDuckGo', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>', url: 'https://duckduckgo.com/?q=', home: 'https://duckduckgo.com' },
+      brave: { name: 'Brave Search', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>', url: 'https://search.brave.com/search?q=', home: 'https://search.brave.com' },
+      gemini: { name: 'Gemini AI', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>', url: 'https://gemini.google.com/app?q=', home: 'https://gemini.google.com/app' },
+      stackoverflow: { name: 'StackOverflow', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>', url: 'https://stackoverflow.com/search?q=', home: 'https://stackoverflow.com' },
+      github: { name: 'GitHub', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>', url: 'https://github.com/search?q=', home: 'https://github.com' }
+    };
+
+    const quickLinks = [
+      { name: 'YouTube', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M10 9l5 3-5 3z"></path></svg>', url: 'https://youtube.com' },
+      { name: 'GitHub', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>', url: 'https://github.com' },
+      { name: 'X', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4l16 16m0-16L4 20"></path></svg>', url: 'https://x.com' },
+      { name: 'Instagram', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>', url: 'https://instagram.com' },
+      { name: 'LinkedIn', icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>', url: 'https://linkedin.com' }
+    ];
+
+    const engineToggleBtn = document.getElementById('engineToggleBtn');
+    const engineToggleArrow = document.getElementById('engineToggleArrow');
+    let enginesVisible = false;
+
+    engineToggleBtn.onclick = () => {
+      enginesVisible = !enginesVisible;
+      if (enginesVisible) {
+        engineContainer.style.display = 'flex';
+        requestAnimationFrame(() => {
+          engineContainer.style.maxHeight = '200px';
+          engineContainer.style.opacity = '1';
+        });
+        engineToggleArrow.style.transform = 'rotate(180deg)';
+      } else {
+        engineContainer.style.maxHeight = '0';
+        engineContainer.style.opacity = '0';
+        engineToggleArrow.style.transform = 'rotate(0deg)';
+        setTimeout(() => { engineContainer.style.display = 'none'; }, 400);
+      }
+    };
+
+    function renderEngines() {
+      engineContainer.innerHTML = '';
+      Object.entries(engines).forEach(([key, data]) => {
+        const btn = document.createElement('button');
+        btn.className = 'glass-button' + (activeEngine === key ? ' active' : '');
+        btn.innerHTML = data.icon + data.name;
+        btn.style.fontSize = '0.85rem';
+        btn.style.padding = '0.5rem 1rem';
+        
+        btn.onclick = (e) => {
+          e.preventDefault();
+          activeEngine = key;
+          renderEngines();
+          
+          const query = searchInput.value.trim();
+          if (query) {
+            window.location.href = data.url + encodeURIComponent(query);
+          } else {
+            window.location.href = data.home;
+          }
+        };
+        engineContainer.appendChild(btn);
+      });
+      searchInput.placeholder = `Search ${engines[activeEngine].name} or type a URL...`;
+    }
+
+    function renderQuickLinks() {
+      quickLinksContainer.innerHTML = '';
+      quickLinks.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.url;
+        a.target = '_blank';
+        a.className = 'glass-panel quick-link';
+        a.innerHTML = `
+          <div style="color: var(--accent-color); margin-bottom: 0.75rem;">
+            ${link.icon}
+          </div>
+          <span>${link.name}</span>
+        `;
+        quickLinksContainer.appendChild(a);
+      });
+    }
+
+    const searchResults = document.getElementById('searchResults');
+    const resultsList = document.getElementById('resultsList');
+    const queryText = document.getElementById('queryText');
+
+    searchForm.onsubmit = (e) => {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query) {
+        let h = JSON.parse(localStorage.getItem('veyuHistory') || '[]');
+        h = h.filter(i => i !== query);
+        h.unshift(query);
+        if (h.length > 20) h.pop();
+        localStorage.setItem('veyuHistory', JSON.stringify(h));
+        const url = engines[activeEngine].url + encodeURIComponent(query);
+        addTab(query, url, activeEngine);
+        window.open(url, '_blank');
+      }
+    };
+
+    // === TABS ===
+    const tabBar = document.getElementById('tabBar');
+    function getTabs() { return JSON.parse(sessionStorage.getItem('veyuTabs') || '[]'); }
+    function saveTabs(t) { sessionStorage.setItem('veyuTabs', JSON.stringify(t)); }
+
+    function addTab(query, url, eng) {
+      const tabs = getTabs();
+      const exists = tabs.findIndex(t => t.query === query && t.engine === eng);
+      if (exists >= 0) { tabs.forEach((t,i) => t.active = i === exists); }
+      else {
+        tabs.forEach(t => t.active = false);
+        tabs.push({ query, url, engine: eng, active: true });
+        if (tabs.length > 10) tabs.shift();
+      }
+      saveTabs(tabs); renderTabs();
+    }
+
+    function renderTabs() {
+      tabBar.innerHTML = '';
+      // Home tab
+      const home = document.createElement('div'); home.className = 'tab-item active';
+      home.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="tab-item-text">Home</span>';
+      home.onclick = () => { const tabs = getTabs(); tabs.forEach(t => t.active = false); saveTabs(tabs); renderTabs(); };
+      const tabs = getTabs();
+      if (!tabs.some(t => t.active)) home.classList.add('active'); else home.classList.remove('active');
+      tabBar.appendChild(home);
+
+      tabs.forEach((tab, i) => {
+        const el = document.createElement('div');
+        el.className = 'tab-item' + (tab.active ? ' active' : '');
+        const text = document.createElement('span'); text.className = 'tab-item-text';
+        text.textContent = tab.query;
+        text.title = tab.query + ' (' + (engines[tab.engine]?.name || tab.engine) + ')';
+        el.appendChild(text);
+        const close = document.createElement('button'); close.className = 'tab-close';
+        close.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+        close.onclick = (e) => { e.stopPropagation(); tabs.splice(i, 1); saveTabs(tabs); renderTabs(); };
+        el.appendChild(close);
+        el.onclick = () => { tabs.forEach(t => t.active = false); tabs[i].active = true; saveTabs(tabs); renderTabs(); window.open(tab.url, '_blank'); };
+        tabBar.appendChild(el);
+      });
+
+      // + button
+      const addBtn = document.createElement('button'); addBtn.className = 'tab-add'; addBtn.title = 'New search';
+      addBtn.textContent = '+';
+      addBtn.onclick = () => { searchInput.value = ''; searchInput.focus(); };
+      tabBar.appendChild(addBtn);
+    }
+
+    // === HISTORY (from hamburger) ===
+    const historyModal = document.getElementById('historyModal');
+    const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+    const historyList = document.getElementById('historyList');
+
+    function renderHistory() {
+      const h = JSON.parse(localStorage.getItem('veyuHistory') || '[]');
+      historyList.innerHTML = '';
+      if (h.length === 0) { historyList.innerHTML = '<div style="color:#64748b;font-size:0.85rem;text-align:center;padding:1rem 0">No recent searches</div>'; return; }
+      h.forEach((q, i) => {
+        const item = document.createElement('div'); item.className = 'history-item';
+        const t = document.createElement('span'); t.className = 'history-item-text'; t.textContent = q;
+        t.onclick = () => { searchInput.value = q; searchForm.dispatchEvent(new Event('submit')); };
+        const r = document.createElement('button'); r.className = 'history-remove-btn';
+        r.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+        r.onclick = (e) => { e.stopPropagation(); h.splice(i,1); localStorage.setItem('veyuHistory',JSON.stringify(h)); renderHistory(); };
+        item.appendChild(t); item.appendChild(r); historyList.appendChild(item);
+      });
+    }
+
+    menuHistoryBtn.onclick = (e) => {
+      e.stopPropagation();
+      hamburgerMenu.classList.remove('open');
+      if (historyModal.style.display === 'block') { historyModal.style.display = 'none'; } 
+      else { renderHistory(); historyModal.style.display = 'block'; }
+    };
+    clearHistoryBtn.onclick = () => { localStorage.removeItem('veyuHistory'); renderHistory(); };
+    document.addEventListener('click', (e) => { if (historyModal && !historyModal.contains(e.target) && e.target !== menuHistoryBtn) historyModal.style.display = 'none'; });
+
+    // === VOICE SEARCH ===
+    const voiceBtn = document.getElementById('voiceBtn');
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SR();
+      recognition.continuous = false; recognition.interimResults = false; recognition.lang = 'en-US';
+      voiceBtn.onclick = () => { voiceBtn.classList.add('listening'); recognition.start(); };
+      recognition.onresult = (e) => { searchInput.value = e.results[0][0].transcript; voiceBtn.classList.remove('listening'); clearBtn.style.display = 'flex'; };
+      recognition.onerror = () => { voiceBtn.classList.remove('listening'); };
+      recognition.onend = () => { voiceBtn.classList.remove('listening'); };
+    } else {
+      voiceBtn.style.display = 'none';
+    }
+
+    // === UI EVENTS ===
+    searchInput.addEventListener('focus', () => searchForm.classList.add('focused'));
+    searchInput.addEventListener('blur', () => searchForm.classList.remove('focused'));
+    searchInput.addEventListener('input', () => { clearBtn.style.display = searchInput.value.length > 0 ? 'flex' : 'none'; });
+    clearBtn.addEventListener('click', () => { searchInput.value = ''; clearBtn.style.display = 'none'; searchInput.focus(); });
+    window.addEventListener('keydown', (e) => {
+      if (authOverlay.style.display !== 'none') return;
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchInput.focus(); }
+    });
+
+    renderEngines();
+    renderQuickLinks();
+    renderTabs();
+  </script>
+</body>
+</html>
+
